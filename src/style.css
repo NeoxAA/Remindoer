@@ -707,6 +707,15 @@ p.adjust-task-title-error.show {
         margin-right: auto;
         width: 85.5%;
     }
+
+    .delete-task-container{
+        left: 50%  !important;
+        top: 100% !important;
+        transform: translate(-50%,-100%) !important;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
     .renderedTasksWrapper{
         margin-top: 2rem;
         margin-bottom: 2rem;
@@ -735,4 +744,92 @@ p.adjust-task-title-error.show {
     .activetaskscontainer{
         min-width: auto;
     }
+}
+
+.delete-task-container {
+    padding: var(--mediumpadding);
+    background: var(--primary);
+    color: var(--white);
+    height: fit-content;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    border-radius: var(--bradius);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    margin-left: auto;
+    margin-right: auto;
+}
+.delete-task-container.show{
+    display: flex;
+}
+
+p.delete-task-confirmation-message {
+    max-width: 250px;
+    text-align: center;
+}
+
+button.delete-confirm-no {
+    margin-top: 1rem;
+    padding: var(--smallpadding);
+    color: var(--primary);
+    background-color: var(--white);
+    border: var(--secondary);
+    transition: 0.3s;
+    cursor: pointer;
+    border-radius: 0.3rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+    font-family: inherit;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+button.delete-confirm-no:hover{
+    background-color: #e5e5e5;
+    border-color: #e5e5e5;
+}
+
+button.delete-confirm-yes {
+    margin-top: 1rem;
+    padding: var(--smallpadding);
+    color: var(--primary);
+    background-color: var(--white);
+    border: var(--errormessageblackbg);
+    transition: 0.3s;
+    cursor: pointer;
+    border-radius: 0.3rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+    font-family: inherit;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-right: 2rem;
+}
+
+button.delete-confirm-yes:hover{
+    background-color: #e5e5e5;
+    border-color: #e5e5e5;
+}
+
+@media screen and (max-width:436px) {
+    .delete-task-container{
+        min-width: 218px;
+    }
+}
+
+
+p.local-storage-notification {
+    font-size: 1.2rem;
+}
+
+p.local-storage-notification a {
+    color:var(--white);
+    text-decoration: underline;
+}
+
+p.local-storage-notification a:hover {
+    text-decoration: none;
 }

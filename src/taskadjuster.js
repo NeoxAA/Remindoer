@@ -21,6 +21,33 @@ const taskControlsHolder = div.cloneNode(false);
 taskControlsHolder.classList.add("task-controls-holder");
 adjustTaskContainer.appendChild(taskControlsHolder);
 
+const deleteTaskConfirmation = div.cloneNode(false);
+deleteTaskConfirmation.classList.add("delete-task-container");
+
+const deleteTaskConfirmationMessage = document.createElement("p");
+deleteTaskConfirmationMessage.classList.add("delete-task-confirmation-message");
+deleteTaskConfirmationMessage.innerText = "Are you sure you want to delete this task?";
+deleteTaskConfirmation.appendChild(deleteTaskConfirmationMessage);
+
+const confirmationButtonsContainer = div.cloneNode(false);
+confirmationButtonsContainer.classList.add("delete-confirmation-buttons-container");
+deleteTaskConfirmation.appendChild(confirmationButtonsContainer);
+
+const deleteConfirmYesButton = document.createElement("button");
+deleteConfirmYesButton.classList.add("delete-confirm-yes");
+deleteConfirmYesButton.innerText = "YES";
+confirmationButtonsContainer.appendChild(deleteConfirmYesButton);
+
+const deleteConfirmNoButton = document.createElement("button");
+deleteConfirmNoButton.classList.add("delete-confirm-no");
+deleteConfirmNoButton.innerText = "NO";
+confirmationButtonsContainer.appendChild(deleteConfirmNoButton);
+
+
+export function deleteTaskWindow(){
+    return {deleteTaskConfirmation}
+}
+
 
 export function adjustTaskWindow(){
     return {adjustTaskContainer}
@@ -126,6 +153,33 @@ function taskAdjuster(taskId){
         })
         
     })
+}
+
+export function deleteTaskListener(taskID){
+    let deleteTaskID = taskID;
+    let deleteTasksContainer = document.querySelector(".delete-confirmation-buttons-container");
+    deleteTasksContainer.innerHTML = `
+    <button id="${taskID}" class="delete-confirm-yes">YES</button>
+    <button class="delete-confirm-no">NO</button>
+    `
+    let deleteTaskButtonYes = document.querySelector("button.delete-confirm-yes");
+    deleteTaskButtonYes.addEventListener("click", () => {
+        taskDelete(deleteTaskID);
+    })
+}
+
+function taskDelete(taskID){
+    let taskDeletetaskID = taskID;
+    console.log(taskID)
+    let tasksList = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasksList = tasksList.filter(task =>  task.id != taskDeletetaskID);
+    localStorage.setItem("tasks", JSON.stringify(tasksList));
+    let requestedTasks = ((checkInterval(tasksList, "alltasks")));
+    let taskListContainer = document.querySelector(".tasklistcontainer");
+    populateTasks(requestedTasks, taskListContainer, "All Tasks");
+    renderProjects();
+    refreshProjects();
+    watchCompleted();
 }
 
 function refreshProjects(){

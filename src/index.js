@@ -6,7 +6,7 @@ import { populateTasks, checkInterval, checkProjectTasks } from './rendertasks';
 import { theTasksContainer } from './taskarea';
 import { projects, addNewProjects, renderProjects } from './projects'
 import { watchCompleted } from './taskcompleted';
-import { adjustTaskWindow, editTask } from './taskadjuster';
+import { adjustTaskWindow, deleteTaskListener, deleteTaskWindow, editTask } from './taskadjuster';
 
 const app = document.getElementById("content");
 const div = document.createElement("div");
@@ -61,7 +61,9 @@ function renderSidebar(){
   app.appendChild(sidebarContainer);
 
   const userNameContainer = document.querySelector('.usernamecontainer');
-  userNameContainer.innerHTML = `<p>Hello ${userName}`
+  userNameContainer.innerHTML = `<p>Hello ${userName}</p>
+  <p class="local-storage-notification">Please note these tasks are saved on your
+  <a href="https://blog.logrocket.com/localstorage-javascript-complete-guide/" target="_blank" rel="noopener">local storage</a> so they will be deleted if it is cleared. They are also separated from each device.`
 }
 if(localStorage.getItem('userName')) {
   renderSidebar();
@@ -247,3 +249,22 @@ window.addEventListener('click', function(e){
     adjustTaskContainer.classList.add('show');
   }
 });
+
+function renderDeleteTaskWindow(){
+  const deleteTaskContainer = deleteTaskWindow()["deleteTaskConfirmation"];
+  app.appendChild(deleteTaskContainer);
+}
+
+renderDeleteTaskWindow()
+
+window.addEventListener('click', function(e){
+  let deleteTaskContainer = document.querySelector(".delete-task-container");
+  if (!document.querySelector('.delete-task-container').contains(e.target) && e.target.classList.contains("delete-task-button") == false || e.target.classList.contains("delete-confirm-yes") == true){
+    deleteTaskContainer.classList.remove('show');
+  }
+  else{
+    deleteTaskContainer.classList.add('show');
+    deleteTaskListener(e.target.id);
+  }
+});
+
